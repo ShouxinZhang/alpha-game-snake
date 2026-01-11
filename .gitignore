@@ -1,0 +1,30 @@
+.venv
+
+# --- Rust ---
+target/
+**/*.rs.bk
+
+# --- Python ---
+__pycache__/
+*.py[cod]
+*.pyd
+*.pyo
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# --- Notebooks ---
+.ipynb_checkpoints/
+
+# --- OS / Editor ---
+.DS_Store
+.idea/
+.vscode/
+
+# --- Project outputs (generated) ---
+**/train/data/*_tmp.csv
+**/train/models/*.pt
+**/train/models/*.onnx
