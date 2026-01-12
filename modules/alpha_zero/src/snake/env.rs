@@ -121,13 +121,26 @@ impl SnakeEnv {
             width,
             height,
             stall_limit: cell_count.saturating_mul(4),
-            kill_on_loop: true,
+            // Loop Detection Tuning:
+            // Previous: true. Immediate kill on ANY repeating state.
+            // Problem: Snake needs to "wait" or loop safely to let its tail pass or wait for path to open.
+            // Fix: false. Allow loops, let step_penalty or stall_limit handle infinite stalls naturally.
+            //      Or strictly, allow *non-fatal* loops but kill only on specific 3-move cycles?
+            //      Simplest for training is to disable instant-kill.
+            kill_on_loop: false, 
             history_limit: (cell_count as usize).saturating_mul(8).max(256),
-            step_penalty: -0.1,
+            // Reward Tuning:
+            // Previous: -0.1 step, 1.0 food.
+            // Problem: If steps > 10, net reward < 0. Agent learns to suicide.
+            // Fix: -0.01 step. Eating is always profitable if < 100 steps.
+            step_penalty: -0.01,
             food_reward: 1.0,
-            hit_wall_penalty: -10.0,
+            // Normalize Death Penalties:
+            // Previous: Wall -10, Self -1. Agent prefers hitting self to quit early.
+            // Fix: All deaths -1.0 (or -2.0 to ensure larger than step noise).
+            hit_wall_penalty: -1.0,
             hit_self_penalty: -1.0,
-            stall_penalty: -10.0,
+            stall_penalty: -1.0,
         }
     }
 

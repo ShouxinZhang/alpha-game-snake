@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 rand = "0.8"
+tract-onnx = "0.21"
 
 [dev-dependencies]
 rand = "0.8"

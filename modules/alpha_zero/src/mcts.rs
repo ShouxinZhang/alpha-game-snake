@@ -294,10 +294,13 @@ impl Mcts {
             let child = &arena[edge.child];
 
             let q = if child.n_visits == 0 {
+                // If we haven't visited this child, assume value is 0 (neutral).
+                // Or use edge.reward + leaf_value (from prior network if we stored it?)
+                // Here we just use the immediate reward.
                 edge.reward
             } else {
                 let child_q = child.mean_value();
-                edge.reward + transform_value(child_q, child.player, parent_player)
+                edge.reward + 0.99f32 * transform_value(child_q, child.player, parent_player)
             };
 
             let u = self.cfg.c_puct
@@ -334,7 +337,7 @@ impl Mcts {
         for (i, &node_id) in path_nodes.iter().enumerate().rev() {
             let reward = if i < path_rewards.len() { path_rewards[i] } else { 0.0 };
             let node_player = arena[node_id].player;
-            let v_node = reward + transform_value(v, v_player, node_player);
+            let v_node = reward + 0.99f32 * transform_value(v, v_player, node_player);
 
             let node = &mut arena[node_id];
             node.n_visits += 1;
@@ -349,71 +352,12 @@ impl Mcts {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::env::Environment;
+    use crate::nim::{NimEnv, NimState};
     use crate::policy::UniformPolicyValue;
-
-    #[derive(Clone, Debug)]
-    struct NimState {
-        pile: u8,
-        player: Player,
-    }
-
-    #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
-    enum NimAction {
-        Take1,
-        Take2,
-        Take3,
-    }
-
-    struct Nim;
-
-    impl Environment for Nim {
-        type State = NimState;
-        type Action = NimAction;
-
-        fn player_to_move(&self, state: &Self::State) -> Player {
-            state.player
-        }
-
-        fn legal_actions(&self, state: &Self::State) -> Vec<Self::Action> {
-            let mut a = Vec::new();
-            if state.pile >= 1 {
-                a.push(NimAction::Take1);
-            }
-            if state.pile >= 2 {
-                a.push(NimAction::Take2);
-            }
-            if state.pile >= 3 {
-                a.push(NimAction::Take3);
-            }
-            a
-        }
-
-        fn next_state(&self, state: &Self::State, action: Self::Action) -> Self::State {
-            let take = match action {
-                NimAction::Take1 => 1,
-                NimAction::Take2 => 2,
-                NimAction::Take3 => 3,
-            };
-            NimState {
-                pile: state.pile.saturating_sub(take),
-                player: -state.player,
-            }
-        }
-
-        fn terminal_value(&self, state: &Self::State) -> Option<f32> {
-            if state.pile == 0 {
-                // Player to move has no move; they lost.
-                Some(-1.0)
-            } else {
-                None
-            }
-        }
-    }
 
     #[test]
     fn mcts_runs_and_returns_policy() {
-        let env = Nim;
+        let env = NimEnv;
         let pv = UniformPolicyValue;
         let mcts = Mcts::new(MctsConfig {
             num_simulations: 50,

@@ -43,7 +43,7 @@ python train_nim.py --data data/nim.csv --epochs 30 --batch 256 --lr 1e-3 --out_
 训练日志会额外输出评估指标（默认每个 epoch 评估 10 局）：
 
 - `avg_return`：平均回报（Nim: 赢 +1 / 输 -1）
-- `avg_len`：平均对局步数
+- `avg_steps`：平均对局步数
 - `win_rate`：先手胜率
 
 ### 4) 导出 ONNX（可选）

@@ -9,19 +9,43 @@ import torch.nn as nn
 class PolicyValueNet(nn.Module):
     def __init__(self, in_dim: int, hidden: int, actions: int):
         super().__init__()
-        self.trunk = nn.Sequential(
-            nn.Linear(in_dim, hidden),
+        self.channels = 8
+        self.hw = int((in_dim / self.channels) ** 0.5)
+
+        self.conv_block = nn.Sequential(
+            nn.Conv2d(self.channels, 64, kernel_size=3, padding=1),
+            nn.BatchNorm2d(64),
             nn.ReLU(),
-            nn.Linear(hidden, hidden),
+            nn.Conv2d(64, 64, kernel_size=3, padding=1),
+            nn.BatchNorm2d(64),
             nn.ReLU(),
         )
-        self.policy_head = nn.Linear(hidden, actions)
-        self.value_head = nn.Linear(hidden, 1)
+
+        # Policy head
+        self.policy_conv = nn.Sequential(
+            nn.Conv2d(64, 2, kernel_size=1),
+            nn.BatchNorm2d(2),
+            nn.ReLU(),
+            nn.Flatten(),
+            nn.Linear(2 * self.hw * self.hw, actions)
+        )
+
+        # Value head
+        self.value_conv = nn.Sequential(
+            nn.Conv2d(64, 1, kernel_size=1),
+            nn.BatchNorm2d(1),
+            nn.ReLU(),
+            nn.Flatten(),
+            nn.Linear(1 * self.hw * self.hw, 64),
+            nn.ReLU(),
+            nn.Linear(64, 1)
+        )
 
     def forward(self, x: torch.Tensor) -> Tuple[torch.Tensor, torch.Tensor]:
-        h = self.trunk(x)
-        logits = self.policy_head(h)
-        value = torch.tanh(self.value_head(h)).squeeze(-1)
+        x = x.view(-1, self.channels, self.hw, self.hw)
+        h = self.conv_block(x)
+        logits = self.policy_conv(h)
+        value = self.value_conv(h).squeeze(-1)
         return logits, value
 
 
@@ -50,7 +74,7 @@ def main() -> None:
         args.out,
         input_names=["x"],
         output_names=["policy_logits", "value"],
-        opset_version=18,
+        opset_version=12,
     )
     print(f"exported: {args.out}")
 

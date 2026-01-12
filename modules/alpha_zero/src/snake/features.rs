@@ -22,14 +22,10 @@ pub fn encode(state: &SnakeState) -> Vec<f32> {
 
     let idx = |ch: usize, x: usize, y: usize, w: usize| -> usize { ch * w * h + y * w + x };
 
-    // Walls (border)
-    for y in 0..h {
-        for x in 0..w {
-            if x == 0 || y == 0 || x + 1 == w || y + 1 == h {
-                out[idx(3, x, y, w)] = 1.0;
-            }
-        }
-    }
+    // NOTE:
+    // Channel 3 (walls) is intentionally left as all-zeros.
+    // Border collisions are handled by the environment rules, and marking the border as walls
+    // in features previously caused the model to "think" the usable board was smaller.
 
     // Snake
     if let Some(&(hx, hy)) = state.snake.front() {
