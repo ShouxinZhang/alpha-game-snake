@@ -1,0 +1,12 @@
+{
+  "name": "repo-metadata",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "仓库元数据管理系统 — 自动扫描目录结构、CRUD 描述信息、PG 同步、生成架构文档",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.26.0",
+    "pg": "^8.18.0",
+    "zod": "^4.3.6"
+  }
+}
