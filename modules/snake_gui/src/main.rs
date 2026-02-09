@@ -7,7 +7,7 @@
 //! - settings: 设置面板编辑器
 //! - app: 应用层编排
 
-mod domain;
+
 mod ui;
 mod input;
 mod settings;

@@ -1,8 +1,0 @@
-# Minimal deps for training
-numpy>=1.23
-# Install torch per your platform; this line often works on Linux x86_64.
-torch>=2.1
-
-# Needed for torch.onnx.export on recent PyTorch versions
-onnx>=1.14
-onnxscript>=0.1

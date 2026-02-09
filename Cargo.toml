@@ -1,0 +1,7 @@
+[workspace]
+members = [
+    "modules/snake_gui",
+    "modules/snake_engine",
+    "modules/snake_alphazero",
+]
+resolver = "2"

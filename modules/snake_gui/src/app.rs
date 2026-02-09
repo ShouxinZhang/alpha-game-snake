@@ -1,7 +1,7 @@
 use macroquad::prelude::*;
 use macroquad::rand::gen_range;
 
-use crate::domain::{Game, GameStatus};
+use snake_engine::{Game, GameStatus};
 use crate::input::{InputHandler, Action};
 use crate::settings::{SettingsEditor, SettingsResult, DEFAULT_GRID_WIDTH, DEFAULT_GRID_HEIGHT};
 use crate::ui::{BoardLayout, ConsoleLayout, Renderer};

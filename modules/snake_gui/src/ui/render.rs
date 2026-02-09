@@ -1,6 +1,6 @@
 use macroquad::prelude::*;
 use super::layout::{BoardLayout, ConsoleLayout};
-use crate::domain::{GameStatus, GameOverReason};
+use snake_engine::{GameStatus, GameOverReason};
 use crate::settings::SettingsEditor;
 
 /// 渲染上下文，负责所有绘制操作
@@ -128,8 +128,9 @@ impl Renderer {
 
         let reason_str = if status == GameStatus::GameOver {
             match game_over_reason {
-                Some(GameOverReason::HitWall) => " | Reason: HitWall",
-                Some(GameOverReason::HitSelf) => " | Reason: HitSelf",
+                Some(GameOverReason::HitWall) => " | Reason: Hit Wall",
+                Some(GameOverReason::HitSelf) => " | Reason: Hit Self",
+                Some(GameOverReason::Starvation) => " | Reason: Starved",
                 None => " | Reason: Unknown",
             }
         } else {

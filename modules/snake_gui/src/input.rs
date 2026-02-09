@@ -1,5 +1,5 @@
 use macroquad::prelude::*;
-use crate::domain::Direction;
+use snake_engine::Direction;
 
 /// 用户意图（从按键翻译而来）
 #[derive(Clone, Copy, PartialEq, Eq, Debug)]
