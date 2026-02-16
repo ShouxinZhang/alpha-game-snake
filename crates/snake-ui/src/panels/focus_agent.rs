@@ -22,7 +22,7 @@ impl FocusPanel {
         let env_obs_size = channels * board_h * board_w;
         let plane = board_h * board_w;
 
-        ui.label(RichText::new("Selected Agent Focus (ViT + RL State)").heading());
+        ui.label(RichText::new("Selected Snake Focus").heading());
 
         let frame = egui::Frame::default()
             .stroke(Stroke::new(1.0, Color32::from_gray(80)))
@@ -157,7 +157,7 @@ impl FocusPanel {
             painter.text(
                 egui::pos2(heatmap_rect.left(), heatmap_rect.top() - 4.0),
                 egui::Align2::LEFT_BOTTOM,
-                "State Heatmap",
+                "Board Heatmap",
                 egui::FontId::monospace(11.0),
                 Color32::GRAY,
             );

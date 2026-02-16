@@ -1,23 +1,16 @@
-mod bridge {
-    pub mod metrics_client;
-}
 mod panels {
     pub mod env_grid;
     pub mod focus_agent;
-    pub mod metrics;
 }
 
-use std::path::PathBuf;
 use std::time::{Duration, Instant};
 
 use anyhow::Result;
 use eframe::egui::{self, Color32, RichText};
 use rand::Rng;
 
-use crate::bridge::metrics_client::{MetricsClient, MetricsSnapshot};
 use crate::panels::env_grid::draw_env_grid;
 use crate::panels::focus_agent::FocusPanel;
-use crate::panels::metrics::MetricsPanel;
 use snake_core::{Action, BatchConfig, BatchEnv, GameConfig};
 
 fn main() -> Result<()> {
@@ -27,14 +20,14 @@ fn main() -> Result<()> {
     };
 
     eframe::run_native(
-        "ViT + AlphaZero Snake Monitor",
+        "Snake Game Monitor",
         options,
-        Box::new(|_| Ok(Box::new(TrainingMonitorApp::default()))),
+        Box::new(|_| Ok(Box::new(GameMonitorApp::default()))),
     )
     .map_err(|err| anyhow::anyhow!("eframe run failed: {err}"))
 }
 
-struct TrainingMonitorApp {
+struct GameMonitorApp {
     env: BatchEnv,
     selected_env: usize,
     scores: Vec<i32>,
@@ -46,14 +39,12 @@ struct TrainingMonitorApp {
     obs: Vec<f32>,
     shape: [usize; 4],
     focus_panel: FocusPanel,
-    metrics_panel: MetricsPanel,
-    metrics_client: MetricsClient,
+    episodes_finished: u64,
+    avg_score: f64,
     rolling_reward: f64,
-    last_episodes_finished: u64,
-    policy_hint: Option<[f32; 4]>,
 }
 
-impl Default for TrainingMonitorApp {
+impl Default for GameMonitorApp {
     fn default() -> Self {
         let mut env = BatchEnv::new(
             GameConfig {
@@ -81,23 +72,21 @@ impl Default for TrainingMonitorApp {
             obs: obs.obs,
             shape: obs.shape,
             focus_panel: FocusPanel::new(),
-            metrics_panel: MetricsPanel::new(),
-            metrics_client: MetricsClient::new(Some(PathBuf::from("artifacts/metrics/latest.jsonl"))),
+            episodes_finished: 0,
+            avg_score: 0.0,
             rolling_reward: 0.0,
-            last_episodes_finished: 0,
-            policy_hint: None,
         }
     }
 }
 
-impl eframe::App for TrainingMonitorApp {
+impl eframe::App for GameMonitorApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         self.tick_simulation();
 
         egui::TopBottomPanel::top("top_controls").show(ctx, |ui| {
             ui.horizontal(|ui| {
                 if ui
-                    .add(egui::Button::new(RichText::new("▶ Run Training").color(Color32::GREEN)))
+                    .add(egui::Button::new(RichText::new("▶ Run").color(Color32::GREEN)))
                     .clicked()
                 {
                     self.running = true;
@@ -132,8 +121,6 @@ impl eframe::App for TrainingMonitorApp {
                     ui.vertical(|ui| {
                         self.focus_panel
                             .ui(ui, &self.obs, self.shape, self.selected_env);
-                        ui.add_space(8.0);
-                        self.metrics_panel.ui(ui);
                     });
                 });
             });
@@ -141,11 +128,13 @@ impl eframe::App for TrainingMonitorApp {
         egui::TopBottomPanel::bottom("status").show(ctx, |ui| {
             ui.horizontal(|ui| {
                 ui.label(format!(
-                    "Total Steps: {} | Active Threads: {} | Selected Env: {} | Episodes Finished: {}",
+                    "Total Steps: {} | Active Envs: {} | Selected Env: {} | Episodes Finished: {} | Avg Score: {:.2} | Rolling Reward: {:.4}",
                     self.total_steps,
                     self.shape[0],
                     self.selected_env,
-                    self.last_episodes_finished
+                    self.episodes_finished,
+                    self.avg_score,
+                    self.rolling_reward
                 ));
             });
         });
@@ -154,7 +143,7 @@ impl eframe::App for TrainingMonitorApp {
     }
 }
 
-impl TrainingMonitorApp {
+impl GameMonitorApp {
     fn tick_simulation(&mut self) {
         if !self.running {
             return;
@@ -172,16 +161,12 @@ impl TrainingMonitorApp {
         let mut rng = rand::thread_rng();
         let mut actions = Vec::with_capacity(self.shape[0]);
         for _ in 0..self.shape[0] {
-            if let Some(policy) = self.policy_hint {
-                actions.push(sample_action_from_policy(&mut rng, policy));
-            } else {
-                actions.push(match rng.gen_range(0..4) {
-                    0 => Action::Up,
-                    1 => Action::Down,
-                    2 => Action::Left,
-                    _ => Action::Right,
-                });
-            }
+            actions.push(match rng.gen_range(0..4) {
+                0 => Action::Up,
+                1 => Action::Down,
+                2 => Action::Left,
+                _ => Action::Right,
+            });
         }
 
         let step_out = self.env.step(&actions);
@@ -198,31 +183,13 @@ impl TrainingMonitorApp {
         };
 
         self.rolling_reward = self.rolling_reward * 0.98 + reward_mean * 0.02;
-        let avg_score = if self.scores.is_empty() {
+        self.avg_score = if self.scores.is_empty() {
             0.0
         } else {
             self.scores.iter().copied().sum::<i32>() as f64 / self.scores.len() as f64
         };
 
-        let default_metrics = MetricsSnapshot {
-            rolling_avg_reward: self.rolling_reward,
-            avg_score,
-            avg_steps: self.total_steps as f64 / self.shape[0] as f64,
-            loss: (1.0 / (1.0 + self.total_steps as f64 * 0.0001)).max(0.01),
-            policy_up: None,
-            policy_down: None,
-            policy_left: None,
-            policy_right: None,
-            episodes_finished: None,
-        };
-        let metrics = self.metrics_client.poll_latest().unwrap_or(default_metrics);
-        if let Some(episodes_finished) = metrics.episodes_finished {
-            self.last_episodes_finished = episodes_finished;
-        }
-        if let Some(policy) = metrics.policy_probs() {
-            self.policy_hint = Some(policy);
-            self.focus_panel.set_policy(policy);
-        } else if let Some(mask) = step_out.legal_actions_mask.get(self.selected_env) {
+        if let Some(mask) = step_out.legal_actions_mask.get(self.selected_env) {
             let mut norm = [0.0_f32; 4];
             let mut sum = 0.0;
             for (i, v) in mask.iter().enumerate() {
@@ -236,24 +203,8 @@ impl TrainingMonitorApp {
             }
             self.focus_panel.set_policy(norm);
         }
-        self.metrics_panel.push(metrics);
 
-        let _ = self.env.reset_done();
+        let reset_ids = self.env.reset_done();
+        self.episodes_finished += reset_ids.len() as u64;
     }
-}
-
-fn sample_action_from_policy(rng: &mut impl rand::Rng, policy: [f32; 4]) -> Action {
-    let mut sample = rng.gen_range(0.0_f32..1.0_f32);
-    for (idx, prob) in policy.into_iter().enumerate() {
-        sample -= prob.max(0.0);
-        if sample <= 0.0 {
-            return match idx {
-                0 => Action::Up,
-                1 => Action::Down,
-                2 => Action::Left,
-                _ => Action::Right,
-            };
-        }
-    }
-    Action::Right
 }

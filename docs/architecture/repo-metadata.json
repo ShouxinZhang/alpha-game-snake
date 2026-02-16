@@ -7,7 +7,7 @@
     ],
     "generateMdDepth": 2
   },
-  "updatedAt": "2026-02-09T08:43:47.555Z",
+  "updatedAt": "2026-02-16T17:32:35.985Z",
   "nodes": {
     ".agents": {
       "type": "directory",
@@ -257,6 +257,14 @@
       "updatedBy": "scan",
       "updatedAt": "2026-02-09T03:47:28.972Z"
     },
+    ".gitignore": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
     "AGENTS.md": {
       "type": "file",
       "description": "",
@@ -264,6 +272,198 @@
       "tags": [],
       "updatedBy": "scan",
       "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "Cargo.lock": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "Cargo.toml": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "crates": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "crates/snake-core": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "crates/snake-core/Cargo.toml": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "crates/snake-core/src": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "crates/snake-core/src/batch.rs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "crates/snake-core/src/env.rs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "crates/snake-core/src/lib.rs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "crates/snake-core/src/types.rs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "crates/snake-core/tests": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "crates/snake-core/tests/batch_consistency.rs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "crates/snake-core/tests/rules.rs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "crates/snake-ui": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "crates/snake-ui/Cargo.toml": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "crates/snake-ui/src": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "crates/snake-ui/src/main.rs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "crates/snake-ui/src/panels": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "crates/snake-ui/src/panels/env_grid.rs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "crates/snake-ui/src/panels/focus_agent.rs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "docs": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "docs/architecture": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "docs/architecture/repo-metadata.json": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "docs/architecture/repository-structure.md": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:32:35.985Z"
     },
     "scripts": {
       "type": "directory",
