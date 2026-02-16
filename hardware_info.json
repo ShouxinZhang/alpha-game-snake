@@ -1,0 +1,24 @@
+{
+  "timestamp": "2026-02-17T04:52:40.643399",
+  "python_version": "3.13.8",
+  "platform": "Linux-6.17.0-14-generic-x86_64-with-glibc2.39",
+  "machine": "x86_64",
+  "processor": "x86_64",
+  "cpu_logical_cores": 32,
+  "torch_version": "2.9.1+cu128",
+  "cuda_available": true,
+  "selected_device": "cpu",
+  "cuda_version": "12.8",
+  "cudnn_version": 91002,
+  "gpu_count": 1,
+  "gpus": [
+    {
+      "id": 0,
+      "name": "NVIDIA GeForce RTX 5090 Laptop GPU",
+      "total_memory_gb": 23.42,
+      "multi_processor_count": 82,
+      "major": 12,
+      "minor": 0
+    }
+  ]
+}
