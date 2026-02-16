@@ -1,0 +1,59 @@
+\documentclass[12pt, a4paper]{ctexart}
+\usepackage{geometry}
+\geometry{left=2.5cm, right=2.5cm, top=3cm, bottom=3cm}
+\usepackage{amsmath, amssymb}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+
+\title{\textbf{基于 ViT、无监督深度强化学习与课程学习的\\贪吃蛇渐进式学习算法设计}}
+\author{Algorithm Design Document}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+本文档提出了一种新颖的深度强化学习算法框架，旨在解决贪吃蛇（Snake）游戏在向大尺寸网格（如 $15 \times 15$）扩展时面临的“奖励极度稀疏”和“长程空间规划困难”问题。该框架结合了视觉Transformer（ViT）、基于掩码自编码器（MAE）与好奇心模块（ICM）的无监督表征学习，并引入渐进式课程学习（Curriculum Learning）机制。智能体从简单的 $5 \times 5$ 网格起步，逐步平滑过渡，最终精通复杂的 $15 \times 15$ 网格环境。
+\end{abstract}
+
+\section{核心机制与架构设计}
+
+\subsection{状态表示与动态尺寸统一化 (Zero-Padding)}
+为了使同一个网络权重能够处理从 $5 \times 5$ 到 $15 \times 15$ 的各种网格尺寸，算法将所有环境的输入统一零填充至最大尺寸 $15 \times 15$。对于边长为 $N$ 的有效网格，其居中放置，外部区域填充为代表墙壁的特定值。并在 ViT 处理时施加注意力掩码（Attention Mask）。
+
+\subsection{无监督深度强化学习 (Unsupervised Deep RL)}
+在大网格中，食物奖励极其稀疏。算法引入两个无监督模块：
+\begin{itemize}
+    \item \textbf{无监督表征预训练 (MAE)}：随机掩盖输入状态中 40\% 的 Patch，要求 ViT 重建被掩盖区域，迫使网络自主学习环境拓扑结构。
+    \item \textbf{内在好奇心驱动 (ICM)}：利用动力学模型预测下一状态。预测误差越大，给予的内在奖励越高，鼓励智能体主动探索未覆盖区域。
+\end{itemize}
+
+\subsection{渐进式课程学习 (Curriculum Learning)}
+实施平滑的网格扩张策略：$5 \times 5 \rightarrow 8 \times 8 \rightarrow 11 \times 11 \rightarrow 15 \times 15$。仅当智能体在当前网格下的平均蛇身长度达到容量的 60\% 以上时，才触发环境扩容。
+
+\section{算法伪代码}
+\begin{algorithm}[H]
+\caption{ViT-Snake: Unsupervised Deep RL with Curriculum Learning}
+\begin{algorithmic}[1]
+\State 初始化 ViT 编码器 $E_{\theta}$，PPO 策略网络 $\pi_{\phi}$，好奇心模型 $ICM_{\omega}$
+\State 初始网格尺寸 $N = 5$，最大尺寸 $M = 15$
+\While{$N \le M$}
+    \While{过去 100 局平均长度 $<$ 阶段阈值}
+        \State 获取状态 $s_t$，执行 Zero-pad 填充至 $15 \times 15$
+        \State 特征 $z_t = E_{\theta}(s_t)$，采样动作 $a_t \sim \pi_{\phi}(\cdot | z_t)$
+        \State 执行动作 $a_t$，获取外部奖励 $r_{ext}$ 及下一状态 $s_{t+1}$
+        \State 计算 ICM 预测误差作为内在奖励 $r_{int}$
+        \State $r_{total} \leftarrow r_{ext} + \lambda r_{int}$
+        
+        \State \textbf{无监督特征更新}: 随机 Mask $s_t$ 中 40\% 的 Patch
+        \State 计算重建损失 $Loss_{MAE}$
+        \State \textbf{策略更新}: 利用 $r_{total}$ 计算 PPO 损失
+        \State 联合更新 $\theta, \phi, \omega$ 网络参数
+    \EndWhile
+    \State $N \leftarrow N + \text{扩展步长}$ \Comment{达成阶段指标，课程扩容}
+\EndWhile
+\end{algorithmic}
+\end{algorithm}
+
+\end{document}
