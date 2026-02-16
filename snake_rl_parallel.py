@@ -8,7 +8,7 @@ import time
 from collections import deque
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Dict, Tuple
+from typing import Dict, Optional, Tuple
 
 import torch
 import torch.nn as nn
@@ -122,13 +122,14 @@ class SnakeVectorEnv:
         self.steps = torch.zeros((self.num_envs,), dtype=torch.long, device=device)
         self.ep_returns = torch.zeros((self.num_envs,), dtype=torch.float32, device=device)
         self.ep_lengths = torch.zeros((self.num_envs,), dtype=torch.long, device=device)
+        self.ep_max_snake_len = torch.full((self.num_envs,), 2, dtype=torch.long, device=device)
 
         self.deltas = torch.tensor([[-1, 0], [1, 0], [0, -1], [0, 1]], dtype=torch.long, device=device)
         self.opposite = torch.tensor([1, 0, 3, 2], dtype=torch.long, device=device)
 
         self.reset()
 
-    def reset(self, env_ids: torch.Tensor = None) -> torch.Tensor:
+    def reset(self, env_ids: Optional[torch.Tensor] = None) -> torch.Tensor:
         if env_ids is None:
             env_ids = torch.arange(self.num_envs, device=self.device)
         if env_ids.numel() == 0:
@@ -143,6 +144,7 @@ class SnakeVectorEnv:
         self.steps[env_ids] = 0
         self.ep_returns[env_ids] = 0.0
         self.ep_lengths[env_ids] = 0
+        self.ep_max_snake_len[env_ids] = 2
         self.body[env_ids, 0] = torch.tensor([r, c - 1], device=self.device)
         self.body[env_ids, 1] = torch.tensor([r, c], device=self.device)
 
@@ -239,15 +241,18 @@ class SnakeVectorEnv:
 
         self.ep_returns += rewards
         self.ep_lengths += 1
+        self.ep_max_snake_len = torch.max(self.ep_max_snake_len, self.lengths)
 
         done_ids = torch.nonzero(done, as_tuple=False).squeeze(-1)
         info = {
             "episode_returns": torch.empty(0, dtype=torch.float32),
             "episode_lengths": torch.empty(0, dtype=torch.long),
+            "episode_snake_lens": torch.empty(0, dtype=torch.long),
         }
         if done_ids.numel() > 0:
             info["episode_returns"] = self.ep_returns[done_ids].detach().cpu()
             info["episode_lengths"] = self.ep_lengths[done_ids].detach().cpu()
+            info["episode_snake_lens"] = self.ep_max_snake_len[done_ids].detach().cpu()
             self.reset(done_ids)
 
         return self._observe(), rewards, done, info
@@ -299,14 +304,18 @@ def train(cfg: TrainConfig) -> None:
     env = SnakeVectorEnv(cfg, device=device)
     model = ActorCritic(cfg.grid_size).to(device)
     if cfg.use_compile and hasattr(torch, "compile"):
-        model = torch.compile(model)
+        compiled_model = torch.compile(model, dynamic=True)
+    else:
+        compiled_model = model
 
     optimizer = optim.Adam(model.parameters(), lr=cfg.learning_rate, eps=1e-5)
-    scaler = torch.cuda.amp.GradScaler(enabled=(device.type == "cuda"))
+    use_amp = False  # AMP disabled: model is tiny and FP16 cuBLAS can fail on newer GPUs
+    scaler = torch.amp.GradScaler(device.type, enabled=use_amp)
 
     obs = env._observe()
     episode_returns_window = deque(maxlen=200)
     episode_lengths_window = deque(maxlen=200)
+    episode_snake_lens_window = deque(maxlen=200)
     start_time = time.time()
 
     num_steps = cfg.rollout_steps
@@ -329,7 +338,7 @@ def train(cfg: TrainConfig) -> None:
         for t in range(num_steps):
             obs_buf[t] = obs
             with torch.no_grad():
-                logits, value = model(obs)
+                logits, value = compiled_model(obs)
                 dist = Categorical(logits=logits)
                 action = dist.sample()
                 logprob = dist.log_prob(action)
@@ -346,9 +355,10 @@ def train(cfg: TrainConfig) -> None:
             if info["episode_returns"].numel() > 0:
                 episode_returns_window.extend(info["episode_returns"].tolist())
                 episode_lengths_window.extend(info["episode_lengths"].tolist())
+                episode_snake_lens_window.extend(info["episode_snake_lens"].tolist())
 
         with torch.no_grad():
-            _, last_value = model(obs)
+            _, last_value = compiled_model(obs)
 
         advantages = torch.zeros_like(rewards_buf, device=device)
         last_gae = torch.zeros((num_envs,), dtype=torch.float32, device=device)
@@ -373,8 +383,8 @@ def train(cfg: TrainConfig) -> None:
             perm = idx[torch.randperm(batch_size, device=device)]
             for start in range(0, batch_size, mini_batch):
                 mb_idx = perm[start : start + mini_batch]
-                with torch.cuda.amp.autocast(enabled=(device.type == "cuda")):
-                    new_logits, new_values = model(b_obs[mb_idx])
+                with torch.amp.autocast(device.type, enabled=use_amp):
+                    new_logits, new_values = compiled_model(b_obs[mb_idx])
                     new_dist = Categorical(logits=new_logits)
                     new_logprobs = new_dist.log_prob(b_actions[mb_idx])
                     entropy = new_dist.entropy().mean()
@@ -398,11 +408,13 @@ def train(cfg: TrainConfig) -> None:
             fps = int((update * batch_size) / max(elapsed, 1e-6))
             mean_return = float(sum(episode_returns_window) / len(episode_returns_window)) if episode_returns_window else 0.0
             mean_len = float(sum(episode_lengths_window) / len(episode_lengths_window)) if episode_lengths_window else 0.0
+            mean_snake_len = float(sum(episode_snake_lens_window) / len(episode_snake_lens_window)) if episode_snake_lens_window else 0.0
             print(
                 f"[{update:04d}/{cfg.updates}] "
                 f"fps={fps} "
                 f"mean_return={mean_return:.3f} "
-                f"mean_len={mean_len:.2f}"
+                f"mean_len={mean_len:.2f} "
+                f"mean_snake_len={mean_snake_len:.2f}"
             )
 
         if update % cfg.save_interval == 0 or update == cfg.updates:
