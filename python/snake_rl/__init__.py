@@ -1,1 +1,0 @@
-"""Snake RL training package."""

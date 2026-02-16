@@ -9,6 +9,9 @@ __pycache__/
 .mypy_cache/
 .pytest_cache/
 
+# Node
+node_modules/
+
 # Runtime artifacts
 artifacts/
 checkpoints/
