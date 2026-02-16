@@ -1,0 +1,14 @@
+[runtime]
+detected_at = "2026-02-09 11:44:45"
+cpu_model = "AMD Ryzen 9 9955HX3D 16-Core Processor"
+gpu_name = "NVIDIA GeForce RTX 5090 Laptop GPU"
+memory_total_gb = 60.51
+memory_available_gb = 19.21
+env_concurrency = 16
+rust_num_threads = 24
+mcts_workers = 20
+train_batch_size = 1024
+replay_capacity = 1000000
+ui_fps = 20
+amp = true
+torch_compile = true

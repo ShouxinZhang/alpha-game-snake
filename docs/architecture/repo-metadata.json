@@ -1,0 +1,613 @@
+{
+  "version": 1,
+  "config": {
+    "scanIgnore": [
+      "docs/dev_logs/**",
+      "docs/private_context/**"
+    ],
+    "generateMdDepth": 2
+  },
+  "updatedAt": "2026-02-09T08:43:47.555Z",
+  "nodes": {
+    ".agents": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/build-check": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/build-check/SKILL.md": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/dependency-review-system": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/dependency-review-system/SKILL.md": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/dependency-review-system/subskills": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/dependency-review-system/subskills/collect-context.md": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/dependency-review-system/subskills/decision-gate.md": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/dependency-review-system/subskills/dependency-guard.md": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/dependency-review-system/subskills/risk-analyzer.md": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/dependency-review-system/subskills/test-gap-mapper.md": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/dev-logs": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/dev-logs/SKILL.md": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/domain-data-update": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/domain-data-update/SKILL.md": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/git-management": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/git-management/SKILL.md": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/local-dev-workflow": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/local-dev-workflow/SKILL.md": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/modularization-governance": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/modularization-governance/SKILL.md": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/modularization-governance/references": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/modularization-governance/references/modularity-policy.template.json": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/modularization-governance/references/refactor-playbook.md": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/modularization-governance/references/scorecard.md": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/modularization-governance/scripts": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/modularization-governance/scripts/check-modularity.mjs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/modularization-governance/scripts/check-unused-symbols.mjs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/repo-structure-sync": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    ".agents/skills/repo-structure-sync/SKILL.md": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "AGENTS.md": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/check_errors.sh": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/repo-metadata": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/repo-metadata/README.md": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/repo-metadata/lib": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/repo-metadata/lib/shared.mjs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/repo-metadata/mcp-server.mjs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/repo-metadata/package.json": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/repo-metadata/scripts": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/repo-metadata/scripts/crud.mjs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/repo-metadata/scripts/generate-structure-md.mjs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/repo-metadata/scripts/scan.mjs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/repo-metadata/scripts/sync-json-to-postgres.mjs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/repo-metadata/scripts/sync-to-json.mjs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/repo-metadata/sql": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/repo-metadata/sql/001_init.sql": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/review": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/review/README.md": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/review/config": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/review/config/policy.json": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/review/input": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/review/input/.gitkeep": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/review/mcp-server.mjs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/review/run.sh": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/review/scripts": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/review/scripts/collect-context.mjs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/review/scripts/dependency-gate.mjs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/review/scripts/run-review.mjs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/review/scripts/validate-llm-report.mjs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/review/templates": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/review/templates/llm-review.template.json": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/tools": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/tools/check_errors": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/tools/check_errors/__init__.py": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/tools/check_errors/__pycache__": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/tools/check_errors/__pycache__/__init__.cpython-312.pyc": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/tools/check_errors/__pycache__/__init__.cpython-313.pyc": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/tools/check_errors/__pycache__/unused_imports.cpython-312.pyc": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/tools/check_errors/__pycache__/unused_imports.cpython-313.pyc": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/tools/check_errors/__pycache__/validate_dunder_all.cpython-312.pyc": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/tools/check_errors/__pycache__/validate_dunder_all.cpython-313.pyc": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/tools/check_errors/unused_imports.py": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    },
+    "scripts/tools/check_errors/validate_dunder_all.py": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-09T03:47:28.972Z"
+    }
+  }
+}
