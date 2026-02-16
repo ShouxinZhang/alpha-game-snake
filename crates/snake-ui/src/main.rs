@@ -1,26 +1,27 @@
-mod panels {
-    pub mod env_grid;
-    pub mod focus_agent;
-}
+mod bridge;
+mod panels;
 
+use std::path::PathBuf;
 use std::time::{Duration, Instant};
 
 use anyhow::Result;
 use eframe::egui::{self, Color32, RichText};
 use rand::Rng;
 
+use crate::bridge::metrics_client::{MetricsClient, MetricsSnapshot};
 use crate::panels::env_grid::draw_env_grid;
 use crate::panels::focus_agent::FocusPanel;
+use crate::panels::metrics::MetricsPanel;
 use snake_core::{Action, BatchConfig, BatchEnv, GameConfig};
 
 fn main() -> Result<()> {
     let options = eframe::NativeOptions {
-        viewport: egui::ViewportBuilder::default().with_inner_size([1460.0, 820.0]),
+        viewport: egui::ViewportBuilder::default().with_inner_size([1540.0, 900.0]),
         ..Default::default()
     };
 
     eframe::run_native(
-        "Snake Game Monitor",
+        "Snake Game + Training Monitor",
         options,
         Box::new(|_| Ok(Box::new(GameMonitorApp::default()))),
     )
@@ -42,6 +43,11 @@ struct GameMonitorApp {
     episodes_finished: u64,
     avg_score: f64,
     rolling_reward: f64,
+    metrics_path: String,
+    metrics_client: MetricsClient,
+    metrics_panel: MetricsPanel,
+    latest_training_metrics: Option<MetricsSnapshot>,
+    last_metrics_poll: Instant,
 }
 
 impl Default for GameMonitorApp {
@@ -60,6 +66,9 @@ impl Default for GameMonitorApp {
         );
         let obs = env.reset();
 
+        let metrics_path = std::env::var("SNAKE_METRICS_PATH")
+            .unwrap_or_else(|_| "artifacts/metrics/latest.jsonl".to_string());
+
         Self {
             env,
             selected_env: 0,
@@ -75,6 +84,11 @@ impl Default for GameMonitorApp {
             episodes_finished: 0,
             avg_score: 0.0,
             rolling_reward: 0.0,
+            metrics_client: MetricsClient::new(Some(PathBuf::from(&metrics_path))),
+            metrics_panel: MetricsPanel::new(),
+            latest_training_metrics: None,
+            last_metrics_poll: Instant::now(),
+            metrics_path,
         }
     }
 }
@@ -82,6 +96,7 @@ impl Default for GameMonitorApp {
 impl eframe::App for GameMonitorApp {
     fn update(&mut self, ctx: &egui::Context, _frame: &mut eframe::Frame) {
         self.tick_simulation();
+        self.poll_training_metrics();
 
         egui::TopBottomPanel::top("top_controls").show(ctx, |ui| {
             ui.horizontal(|ui| {
@@ -101,6 +116,8 @@ impl eframe::App for GameMonitorApp {
                 ui.separator();
                 ui.label(format!("Simulation Speed: {:.1}x", self.sim_speed));
                 ui.add(egui::Slider::new(&mut self.sim_speed, 1.0..=20.0));
+                ui.separator();
+                ui.label(format!("Metrics: {}", self.metrics_path));
             });
         });
 
@@ -123,6 +140,12 @@ impl eframe::App for GameMonitorApp {
                             .ui(ui, &self.obs, self.shape, self.selected_env);
                     });
                 });
+
+                ui.add_space(8.0);
+                ui.separator();
+                ui.add_space(6.0);
+                self.metrics_panel
+                    .ui(ui, self.latest_training_metrics.as_ref());
             });
 
         egui::TopBottomPanel::bottom("status").show(ctx, |ui| {
@@ -137,6 +160,19 @@ impl eframe::App for GameMonitorApp {
                     self.rolling_reward
                 ));
             });
+            if let Some(metric) = &self.latest_training_metrics {
+                ui.label(format!(
+                    "Training: iter={} stage={} mode={} total_loss={:.4} ppo={:.4} mae={:.4} icm={:.4} episodes_finished={}",
+                    metric.iter,
+                    metric.stage_size,
+                    metric.mode,
+                    metric.total_loss,
+                    metric.ppo_loss,
+                    metric.mae_loss,
+                    metric.icm_loss,
+                    metric.episodes_finished,
+                ));
+            }
         });
 
         ctx.request_repaint_after(Duration::from_millis(16));
@@ -206,5 +242,30 @@ impl GameMonitorApp {
 
         let reset_ids = self.env.reset_done();
         self.episodes_finished += reset_ids.len() as u64;
+    }
+
+    fn poll_training_metrics(&mut self) {
+        if self.last_metrics_poll.elapsed() < Duration::from_millis(300) {
+            return;
+        }
+        self.last_metrics_poll = Instant::now();
+
+        if let Some(metric) = self.metrics_client.poll_latest() {
+            let should_push = self
+                .latest_training_metrics
+                .as_ref()
+                .map(|m| m.iter != metric.iter)
+                .unwrap_or(true);
+
+            if should_push {
+                self.metrics_panel.push(&metric);
+            }
+
+            if let Some(policy) = metric.policy_probs() {
+                self.focus_panel.set_policy(policy);
+            }
+
+            self.latest_training_metrics = Some(metric);
+        }
     }
 }

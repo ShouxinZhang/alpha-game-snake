@@ -1,0 +1,39 @@
+seed: 7
+
+curriculum:
+  stages: [5, 8, 11, 15]
+  max_grid: 15
+
+env:
+  board_w: 15
+  board_h: 15
+  max_steps: 512
+  seed: 7
+  num_envs: 16
+  num_threads: 24
+  obs_channels: 7
+
+model:
+  in_channels: 7
+  patch_size: 3
+  embed_dim: 128
+
+optim:
+  lr: 0.0003
+  weight_decay: 0.0001
+  grad_clip: 1.0
+  gamma: 0.99
+  gae_lambda: 0.95
+  clip_ratio: 0.2
+  ppo_epochs: 2
+  intrinsic_coef: 0.05
+  mae_weight: 0.5
+  icm_weight: 0.1
+
+runtime:
+  device: cuda
+  iterations: 300
+  steps_per_iter: 128
+  checkpoint_interval: 50
+  artifact_dir: artifacts/metrics
+  checkpoint_dir: checkpoints

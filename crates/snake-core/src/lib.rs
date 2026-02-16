@@ -1,5 +1,7 @@
 pub mod batch;
 pub mod env;
+#[cfg(feature = "python")]
+pub mod python_api;
 pub mod types;
 
 pub use batch::BatchEnv;

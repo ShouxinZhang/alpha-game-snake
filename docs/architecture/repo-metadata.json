@@ -7,7 +7,7 @@
     ],
     "generateMdDepth": 2
   },
-  "updatedAt": "2026-02-16T17:32:35.985Z",
+  "updatedAt": "2026-02-16T20:07:55.462Z",
   "nodes": {
     ".agents": {
       "type": "directory",
@@ -289,6 +289,30 @@
       "updatedBy": "scan",
       "updatedAt": "2026-02-16T17:32:35.985Z"
     },
+    "configs": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:50:51.139Z"
+    },
+    "configs/train": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:50:51.139Z"
+    },
+    "configs/train/vit_mae_icm_ppo.yaml": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:50:51.139Z"
+    },
     "crates": {
       "type": "directory",
       "description": "",
@@ -344,6 +368,14 @@
       "tags": [],
       "updatedBy": "scan",
       "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "crates/snake-core/src/python_api.rs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:50:51.139Z"
     },
     "crates/snake-core/src/types.rs": {
       "type": "file",
@@ -401,6 +433,30 @@
       "updatedBy": "scan",
       "updatedAt": "2026-02-16T17:32:35.985Z"
     },
+    "crates/snake-ui/src/bridge": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T20:07:55.462Z"
+    },
+    "crates/snake-ui/src/bridge/metrics_client.rs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T20:07:55.462Z"
+    },
+    "crates/snake-ui/src/bridge/mod.rs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T20:07:55.462Z"
+    },
     "crates/snake-ui/src/main.rs": {
       "type": "file",
       "description": "",
@@ -433,6 +489,22 @@
       "updatedBy": "scan",
       "updatedAt": "2026-02-16T17:32:35.985Z"
     },
+    "crates/snake-ui/src/panels/metrics.rs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T20:07:55.462Z"
+    },
+    "crates/snake-ui/src/panels/mod.rs": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T20:07:55.462Z"
+    },
     "docs": {
       "type": "directory",
       "description": "",
@@ -464,6 +536,134 @@
       "tags": [],
       "updatedBy": "scan",
       "updatedAt": "2026-02-16T17:32:35.985Z"
+    },
+    "docs/dev_logs": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:48:39.017Z"
+    },
+    "python": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:50:51.139Z"
+    },
+    "python/snake_rl": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:50:51.139Z"
+    },
+    "python/snake_rl/__init__.py": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:50:51.139Z"
+    },
+    "python/snake_rl/models": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:50:51.139Z"
+    },
+    "python/snake_rl/models/__init__.py": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:50:51.139Z"
+    },
+    "python/snake_rl/models/vit_mae_agent.py": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:50:51.139Z"
+    },
+    "python/snake_rl/runtime": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:50:51.139Z"
+    },
+    "python/snake_rl/runtime/__init__.py": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:50:51.139Z"
+    },
+    "python/snake_rl/runtime/rust_env.py": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:50:51.139Z"
+    },
+    "python/snake_rl/trainers": {
+      "type": "directory",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:50:51.139Z"
+    },
+    "python/snake_rl/trainers/__init__.py": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:50:51.139Z"
+    },
+    "python/snake_rl/trainers/curriculum.py": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:50:51.139Z"
+    },
+    "python/snake_rl/trainers/joint_loss.py": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:50:51.139Z"
+    },
+    "python/snake_rl/trainers/train_loop.py": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T17:50:51.139Z"
+    },
+    "restart.sh": {
+      "type": "file",
+      "description": "",
+      "detail": "",
+      "tags": [],
+      "updatedBy": "scan",
+      "updatedAt": "2026-02-16T20:07:55.462Z"
     },
     "scripts": {
       "type": "directory",

@@ -6,6 +6,11 @@ license.workspace = true
 
 [lib]
 name = "snake_core"
+crate-type = ["rlib", "cdylib"]
+
+[features]
+default = []
+python = ["dep:pyo3"]
 
 [dependencies]
 rand.workspace = true
@@ -13,3 +18,4 @@ rand_chacha.workspace = true
 rayon.workspace = true
 serde.workspace = true
 thiserror.workspace = true
+pyo3 = { workspace = true, optional = true }

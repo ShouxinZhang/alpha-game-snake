@@ -7,11 +7,16 @@
 REPO/
 ├── .agents/
 │   └── skills/
+├── configs/
+│   └── train/
 ├── crates/
 │   ├── snake-core/
 │   └── snake-ui/
 ├── docs/
-│   └── architecture/
+│   ├── architecture/
+│   └── dev_logs/
+├── python/
+│   └── snake_rl/
 ├── scripts/
 │   ├── repo-metadata/
 │   ├── review/
@@ -20,6 +25,7 @@ REPO/
 ├── .gitignore
 ├── AGENTS.md
 ├── Cargo.lock
-└── Cargo.toml
+├── Cargo.toml
+└── restart.sh
 ```
 <!-- REPO-TREE-END -->
